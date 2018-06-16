@@ -16,6 +16,8 @@ lambda_vec = [0 0.001 0.003 0.01 0.03 0.1 0.3 1 3 10]';
 error_train = zeros(length(lambda_vec), 1);
 error_val = zeros(length(lambda_vec), 1);
 
+m = size(X, 1);
+
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return training errors in 
 %               error_train and the validation errors in error_val. The 
@@ -38,16 +40,15 @@ error_val = zeros(length(lambda_vec), 1);
 %       end
 %
 %
-
-
-
-
-
-
-
-
-
-
+best_error = 1e10;
+best_lambda = 0;
+for i = 1:length(lambda_vec)
+	lambda = lambda_vec(i);
+	[a, b] = learningCurve(X, y, Xval, yval, lambda);
+	error_train(i) = a(m);
+	error_val(i) = b(m);
+	if (a(m) < best_error) best_lambda = i
+end
 % =========================================================================
 
 end
