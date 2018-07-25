@@ -25,6 +25,28 @@ sigma = 0.3;
 
 
 
+vals = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+vals_count = length(vals)
+current_error = length(yval) + 100;
+
+for i=1:vals_count
+  for j=1:vals_count
+    %printf("Current Training no. %d/%d", vals_count*(i-1)+j, vals_count*vals_count);
+    c = vals(i);
+    sig = vals(j);
+    
+    # Train the model.
+    model= svmTrain(X, y, c, @(x1, x2) gaussianKernel(x1, x2, sig)); 
+    pred = svmPredict(model, Xval);
+    error = mean(pred != yval);
+    if (current_error > error)
+      C = c;
+      sigma = sig;
+      current_error = error
+    endif
+  endfor
+endfor
+
 
 
 
